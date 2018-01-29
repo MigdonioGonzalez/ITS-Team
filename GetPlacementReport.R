@@ -21,7 +21,6 @@ GetPlacementReport <- function(inicial = "",final = ""){
   URL <- paste0(URL,"&page_num=1")
   
   data_estudiantes <- read.csv(URL,encoding = "UTF-8")
-  View(data_estudiantes)
-  
+
   return(data_estudiantes)
 }
