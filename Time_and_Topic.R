@@ -1,7 +1,7 @@
 #Loading Libraries
-library(xlsx)
-library(dplyr)
-library(lubridate)
+require(xlsx)
+require(dplyr)
+require(lubridate)
 require(ggplot2)
 require(reshape2)
 
