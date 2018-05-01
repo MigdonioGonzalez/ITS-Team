@@ -1,6 +1,6 @@
 #Loading libraries.
-library(xlsx)
-library(dplyr)
+require(xlsx)
+require(dplyr)
 
 #Cleaning the data. 
 students_list <- read.xlsx("Student_Roster.xls",1)
