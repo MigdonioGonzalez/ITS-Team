@@ -2,6 +2,8 @@
 library(xlsx)
 library(dplyr)
 library(lubridate)
+require(ggplot2)
+require(reshape2)
 
 #Reading the student's data.
 data_estudiantes <- read.xlsx('Time_and_Topic.xlsx',1)
@@ -28,5 +30,18 @@ average_time <- full_join(average_time, students_log, by = "Fecha")
 average_time <- mutate(average_time, "Minutos_de_Interaccion_Promedio" = Minutos_de_Interaccion_Total/Total_de_Estudiantes)
 
 #Creating plots.
-plot(average_time_aleks$Fecha,average_time_aleks$Minutos_de_Interaccion_Promedio, type = "l", col = "red", xlab = "Día", ylab = "Tiempo Promedio (minutos)")
-plot(average_time$Fecha,average_time$Minutos_de_Interaccion_Promedio, type = "l",col = "red", xlab = "Día", ylab = "Tiempo Promedio (minutos)")
+plot(average_time_aleks$Fecha,average_time_aleks$Minutos_de_Interaccion_Promedio, type = "l", col = "red", xlab = "DÃ­a", ylab = "Tiempo Promedio (minutos)")
+plot(average_time$Fecha,average_time$Minutos_de_Interaccion_Promedio, type = "l",col = "red", xlab = "DÃ­a", ylab = "Tiempo Promedio (minutos)")
+
+#Fancy Plot
+##If we are plotting 2 series, ggplot works best with long format
+## Basicly we are merging the means from alkes, and the calculated ones and then tranforming them into long format
+mergeCols = c("Fecha","Minutos_de_Interaccion_Promedio")
+average_time_merge <-merge(average_time[,mergeCols], average_time_aleks[,mergeCols], by = "Fecha",suffixes = c("_real","_aleks"))
+average_time_merge.melt = melt(average_time_merge, id = "Fecha",value.name = "Mean", variable.name = "Source")
+#gglot
+ggplot(aes(Fecha,Mean,color=factor(Source,labels = c("Calculado", "SegÃºn Aleks"))), data = average_time_merge.melt) +
+  geom_line() +
+  labs(y = "Interaccion Promedio (mins)", color = "Fuente") +
+  scale_y_continuous(breaks = seq(0,150,20)) +
+  ggtitle("Interaccion Promedio vs. Fecha")
