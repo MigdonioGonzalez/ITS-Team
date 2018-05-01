@@ -1,6 +1,6 @@
 #Loading libraries.
-library(xlsx)
-library(dplyr)
+require(xlsx)
+require(dplyr)
 
 #Cleaning the data. 
 students_list <- read.xlsx("Student_Roster.xls",1)
@@ -11,10 +11,11 @@ students_list$Enrollment.Date <- as.Date(as.character(students_list$Enrollment.D
 
 #Creating the time series and count vector. 
 dates_list_day <- seq(as.Date("2018-03-21"), as.Date("2018-04-28"),by = "day")
-count <- as.numeric()
+
 
 #Creating the counting function. 
 students_count <- function(dates){
+  count <- as.numeric()
   for (d in 1:length(dates)){
     count[d] <- nrow(filter(students_list, Enrollment.Date <= dates[d]))
   }
