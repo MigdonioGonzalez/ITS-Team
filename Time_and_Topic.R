@@ -45,3 +45,11 @@ ggplot(aes(Fecha,Mean,color=factor(Source,labels = c("Calculado", "Según Aleks"
   labs(y = "Interaccion Promedio (mins)", color = "Fuente") +
   scale_y_continuous(breaks = seq(0,150,20)) +
   ggtitle("Interaccion Promedio vs. Fecha")
+
+##Scatter Plot
+ggplot(aes(Fecha,Mean,color=factor(Source,labels = c("Calculado", "Según Aleks"))), data = average_time_merge.melt) +
+  geom_point() + 
+  geom_smooth(method='lm', se=FALSE) +
+  labs(y = "Interaccion Promedio (mins)", color = "Fuente") +
+  scale_y_continuous(breaks = seq(0,150,20)) +
+  ggtitle("Interaccion Promedio vs. Fecha")
